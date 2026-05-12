@@ -3,10 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Bookmarks · Pro Manager</title>
+<title>Rock J! All Bookmarks</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; }
   :root {
     --bg: #0a0a0f;
     --surface: #111118;
@@ -21,21 +20,29 @@
     --danger: #ff5565;
     --success: #6affb8;
   }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
   body {
     background: var(--bg);
     color: var(--text);
     font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
+    overflow-x: hidden;
   }
+
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background: radial-gradient(ellipse 60% 40% at 10% 20%, rgba(124,106,255,0.08) 0%, transparent 70%),
-                radial-gradient(ellipse 50% 30% at 90% 80%, rgba(255,106,158,0.06) 0%, transparent 70%);
+    background:
+      radial-gradient(ellipse 60% 40% at 10% 20%, rgba(124,106,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 30% at 90% 80%, rgba(255,106,158,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 50% 50%, rgba(106,255,184,0.04) 0%, transparent 70%);
     pointer-events: none;
     z-index: 0;
   }
+
   .container {
     max-width: 1280px;
     margin: 0 auto;
@@ -43,10 +50,14 @@
     position: relative;
     z-index: 1;
   }
+
+  /* NAV TABS */
   .page-nav {
     display: flex;
     gap: 4px;
     padding: 16px 0 0;
+    position: relative;
+    z-index: 1;
   }
   .page-tab {
     background: none;
@@ -69,623 +80,1100 @@
     color: var(--accent);
     border-color: var(--accent);
     border-bottom: 1px solid var(--surface);
+    margin-bottom: -1px;
   }
+
   .page-content {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 0 14px 14px 14px;
     padding: 40px 32px;
-    min-height: 70vh;
+    min-height: 80vh;
   }
-  .page-content.page-manage { border-radius: 14px; }
+  .page-content.page-manage { border-radius: 14px 14px 14px 14px; }
+
   .page { display: none; }
   .page.active { display: block; }
+
+  /* HEADER */
+  header { padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+
+  .search-wrap { position: relative; width: 100%; max-width: 100%; }
+  .search-wrap input {
+    width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px 12px 44px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; }
+
+  /* ── SITE BANNER ── */
   .rainbow-banner {
     width: 100%;
+    min-height: 90px;
     border-radius: 14px;
     border: 1px solid var(--border);
+    overflow: hidden;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 18px 80px;
-    margin-bottom: 20px;
+    margin-bottom: 0;
+    padding: 18px 170px;
+  }
+  .rb-bg {
+    position: absolute;
+    inset: 0;
     background: linear-gradient(135deg, #0e0c1e 0%, #13102a 40%, #0f1a1a 100%);
   }
-  .rb-center { text-align: center; z-index: 2; }
+  .rb-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 80% at 15% 50%, rgba(124,106,255,0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 70% at 85% 50%, rgba(106,255,184,0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 60% at 50% 50%, rgba(255,106,158,0.10) 0%, transparent 70%);
+  }
+  .rb-border-line {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+    background-size: 300% 100%;
+    animation: rbShimmer 4s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1px;
+  }
+  @keyframes rbShimmer {
+    0%   { background-position: 0%   0%; }
+    100% { background-position: 300% 0%; }
+  }
+  .rb-shapes { position: absolute; top:0; bottom:0; display:flex; align-items:center; gap:8px; padding:0 20px; z-index:2; }
+  .rb-shapes.left  { left:0; }
+  .rb-shapes.right { right:0; }
+  .rb-shape {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    border: 1px solid rgba(124,106,255,0.3);
+    background: rgba(124,106,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .rb-shape.pink  { border-color: rgba(255,106,158,0.3); background: rgba(255,106,158,0.1); }
+  .rb-shape.green { border-color: rgba(106,255,184,0.3); background: rgba(106,255,184,0.1); }
+  .rb-center {
+    position: relative; z-index: 3; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
   .rb-headline {
     font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: clamp(20px, 4vw, 28px);
-    background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+    font-size: clamp(17px, 3vw, 26px);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 55%, var(--accent3) 100%);
     -webkit-background-clip: text;
-    background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .stats-bar { display: flex; gap: 16px; margin: 20px 0 24px; flex-wrap: wrap; }
+  .rb-sub1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(11px, 1.5vw, 13px);
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.03em;
+    margin: 0;
+    opacity: 0.85;
+  }
+  .rb-sub2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(10px, 1.3vw, 12px);
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .rainbow-banner { padding: 16px 120px; }
+  }
+  @media (max-width: 600px) {
+    .rainbow-banner { padding: 16px 10px; min-height: 80px; }
+    .rb-shapes { gap: 5px; padding: 0 8px; }
+    .rb-shape { width: 26px; height: 26px; border-radius: 7px; }
+    .rb-shape svg { width: 13px; height: 13px; }
+  }
+  @media (max-width: 380px) {
+    .rb-shapes.right { display: none; }
+    .rb-shapes.left { padding: 0 6px; }
+  }
+
+  /* STATS */
+  .stats-bar { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
   .stat {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 8px 18px;
-    display: flex;
-    gap: 10px;
+    padding: 10px 18px;
+    display: flex; align-items: center; gap: 10px;
   }
   .stat-num { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--accent); }
-  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 20px 0; }
-  .filter-btn, .manage-cat-btn {
+  .stat-label { color: var(--muted); font-size: 0.78rem; }
+
+  /* FILTER TABS */
+  .top-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; flex: 1; }
+  .filter-btn {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 7px 14px;
     color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
     font-size: 0.8rem;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
-  .filter-btn.active, .filter-btn:hover, .manage-cat-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 12px; margin-top: 12px; }
+  .filter-btn:hover, .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* VIEW TOGGLE */
+  .view-toggle { display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 4px; }
+  .view-btn { background: none; border: none; color: var(--muted); padding: 5px 9px; border-radius: 5px; cursor: pointer; font-size: 0.85rem; transition: all 0.15s; }
+  .view-btn.active { background: var(--accent); color: #fff; }
+
+  /* SECTIONS */
+  .section { margin-bottom: 48px; animation: fadeUp 0.4s ease both; }
+  @keyframes fadeUp { from { opacity:0; transform: translateY(16px); } to { opacity:1; transform: translateY(0); } }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .section-icon { width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; flex-shrink: 0; }
+  .section-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.02em; }
+  .section-count { background: var(--border); color: var(--muted); font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 20px; font-family: 'Syne', sans-serif; margin-left: auto; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 10px; }
+  .grid.list-view { grid-template-columns: 1fr 1fr; }
+
+  /* BOOKMARK CARD */
   .bookmark-card {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 10px 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
     text-decoration: none;
     color: var(--text);
     transition: all 0.2s;
+    position: relative; overflow: hidden; cursor: pointer;
   }
-  .bookmark-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .favicon { width: 28px; height: 28px; border-radius: 7px; background: var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .favicon img { width: 100%; height: 100%; object-fit: contain; border-radius: 5px; }
-  .card-info { flex: 1; }
+  .bookmark-card::before { content:''; position:absolute; inset:0; background: linear-gradient(135deg, var(--accent) 0%, transparent 100%); opacity:0; transition: opacity 0.2s; }
+  .bookmark-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 0 1px var(--accent), 0 4px 12px var(--glow); }
+  .bookmark-card:hover::before { opacity: 0.04; }
+  .favicon { width:28px; height:28px; border-radius:7px; background:var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; z-index:1; }
+  .favicon img { width:100%; height:100%; object-fit:contain; border-radius:5px; }
+  .favicon-fallback { font-size:0.75rem; font-weight:700; font-family:'Syne',sans-serif; color:var(--accent); }
+  .card-info { flex:1; min-width:0; position:relative; z-index:1; }
+  .card-name { font-size:0.83rem; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.3; }
+  .card-domain { font-size:0.7rem; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  .card-arrow { color:var(--muted); font-size:0.75rem; opacity:0; transition:opacity 0.2s; position:relative; z-index:1; flex-shrink:0; }
+  .bookmark-card:hover .card-arrow { opacity:1; }
+
+  /* Category colors */
+  .cat-ai    .section-icon { background: rgba(124,106,255,0.15); color: #7c6aff; }
+  .cat-blog  .section-icon { background: rgba(255,200,80,0.15);  color: #ffc850; }
+  .cat-app   .section-icon { background: rgba(106,255,184,0.15); color: #6affb8; }
+  .cat-web   .section-icon { background: rgba(80,200,255,0.15);  color: #50c8ff; }
+  .cat-cs    .section-icon { background: rgba(255,106,158,0.15); color: #ff6a9e; }
+  .cat-taka  .section-icon { background: rgba(255,160,60,0.15);  color: #ffa03c; }
+  .cat-dev   .section-icon { background: rgba(180,106,255,0.15); color: #b46aff; }
+  .cat-personal .section-icon { background: rgba(106,220,255,0.15); color: #6adcff; }
+  .cat-follow .section-icon { background: rgba(255,230,100,0.15); color: #ffe664; }
+
+  .no-results { text-align:center; padding:80px 20px; color:var(--muted); display:none; }
+  .no-results h3 { font-family:'Syne',sans-serif; font-size:1.4rem; margin-bottom:8px; }
+  .highlight { background: rgba(124,106,255,0.3); border-radius: 2px; }
+
+  /* ===================== MANAGE PAGE ===================== */
+  .manage-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px; flex-wrap: wrap; gap: 16px;
+  }
+  .manage-header h2 {
+    font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  .manage-header h2 span { color: var(--accent); }
+
   .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 20px;
-    border-radius: 10px;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 20px; border-radius: 10px; border: none;
+    font-family: 'DM Sans', sans-serif; font-size: 0.88rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
   }
   .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #6a58e0; }
+  .btn-primary:hover { background: #6a58e0; transform: translateY(-1px); box-shadow: 0 4px 16px var(--glow); }
   .btn-ghost { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
   .btn-danger { background: rgba(255,85,101,0.15); border: 1px solid rgba(255,85,101,0.3); color: var(--danger); }
-  .btn-sm { padding: 5px 12px; font-size: 0.75rem; }
+  .btn-danger:hover { background: rgba(255,85,101,0.25); }
+  .btn-sm { padding: 6px 12px; font-size: 0.78rem; border-radius: 7px; }
 
-  /* Manage Table */
-  .manage-section { margin-bottom: 36px; }
-  .manage-section-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px 12px 0 0;
-    padding: 12px 16px;
+  /* CATEGORY SELECTOR */
+  .manage-cats {
+    display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap;
   }
+  .manage-cat-btn {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 7px 14px; color: var(--muted);
+    font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 500;
+    cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .manage-cat-btn:hover { border-color: var(--accent); color: var(--text); }
+  .manage-cat-btn.active { background: var(--card); border-color: var(--accent); color: var(--accent); }
+
+  /* MANAGE TABLE */
+  .manage-section { margin-bottom: 40px; animation: fadeUp 0.35s ease both; }
+  .manage-section-header {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px 10px 0 0; padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .manage-section-header .section-icon { width:30px; height:30px; font-size:0.85rem; border-radius:8px; }
+  .manage-section-header .section-title { font-family:'Syne',sans-serif; font-size:0.95rem; font-weight:700; }
+  .manage-section-header .section-count { font-size:0.68rem; }
+  .manage-section-header .edit-cat-btn { margin-left:auto; }
+
   .bookmark-table {
     width: 100%;
     border-collapse: collapse;
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 0 0 12px 12px;
+    border-top: none;
+    border-radius: 0 0 10px 10px;
     overflow: hidden;
   }
   .bookmark-table th {
     background: rgba(42,42,58,0.5);
-    padding: 10px 14px;
+    padding: 9px 14px;
     text-align: left;
+    font-family: 'Syne', sans-serif;
     font-size: 0.7rem;
     font-weight: 700;
     color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-bottom: 1px solid var(--border);
   }
   .bookmark-table td {
     padding: 10px 14px;
     border-bottom: 1px solid rgba(42,42,58,0.5);
     font-size: 0.85rem;
+    vertical-align: middle;
   }
   .bookmark-table tr:last-child td { border-bottom: none; }
+  .bookmark-table tr:hover td { background: rgba(124,106,255,0.04); }
+  .bookmark-table .td-favicon { width: 40px; }
+  .bookmark-table .td-actions { width: 100px; }
+  .td-favicon .favicon { width:24px; height:24px; border-radius:6px; }
+  .td-name { font-weight: 500; }
+  .td-url { color: var(--muted); font-size: 0.78rem; max-width: 240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .td-url a { color: var(--accent); text-decoration: none; }
+  .td-url a:hover { text-decoration: underline; }
+  .td-actions { display: flex; gap: 6px; align-items: center; }
+
   .empty-cat {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 12px 12px;
-    padding: 28px;
-    text-align: center;
-    color: var(--muted);
+    background: var(--card); border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 10px 10px;
+    padding: 24px; text-align: center; color: var(--muted); font-size: 0.85rem;
   }
-  .modal-overlay, .confirm-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.8);
-    backdrop-filter: blur(5px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 1000; display: flex; align-items: center; justify-content: center;
+    padding: 24px; opacity: 0; pointer-events: none; transition: opacity 0.2s;
   }
-  .modal-overlay.open, .confirm-overlay.open { opacity: 1; pointer-events: all; }
-  .modal, .confirm-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 28px;
-    width: 100%;
-    max-width: 460px;
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; width: 100%; max-width: 480px;
+    transform: scale(0.95) translateY(10px); transition: transform 0.2s;
+    max-height: 90vh; overflow-y: auto;
   }
+  .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+  .modal-title { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:24px; }
+  .modal-title span { color: var(--accent); }
+
   .form-group { margin-bottom: 18px; }
-  .form-group label { display: block; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .form-group label { display:block; font-size:0.78rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:7px; }
   .form-group input, .form-group select {
-    width: 100%;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 14px;
-    color: var(--text);
+    width: 100%; background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 11px 14px; color: var(--text); font-family:'DM Sans',sans-serif; font-size:0.9rem; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s; appearance: none;
   }
+  .form-group input:focus, .form-group select:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow);
+  }
+  .form-group input::placeholder { color: var(--muted); }
+  .form-group select option { background: var(--card); }
+
+  .modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+
+  /* TOAST */
   .toast {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 20px;
-    display: flex;
-    gap: 10px;
-    transform: translateY(80px);
-    opacity: 0;
-    transition: all 0.3s;
-    z-index: 2000;
+    position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 20px; display: flex; align-items: center; gap: 10px;
+    font-size: 0.88rem; font-weight: 500; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    transform: translateY(80px); opacity: 0; transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    pointer-events: none; max-width: 320px;
   }
   .toast.show { transform: translateY(0); opacity: 1; }
-  .toast.success { border-left: 4px solid var(--success); }
-  .toast.error { border-left: 4px solid var(--danger); }
+  .toast.success { border-color: rgba(106,255,184,0.4); }
+  .toast.success .toast-icon { color: var(--success); }
+  .toast.error { border-color: rgba(255,85,101,0.4); }
+  .toast.error .toast-icon { color: var(--danger); }
+  .toast-icon { font-size: 1.1rem; }
+
+  /* ADD CAT SECTION */
+  .add-cat-section {
+    background: var(--card); border: 1px dashed var(--border); border-radius: 12px;
+    padding: 20px; text-align: center; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+  }
+  .add-cat-section span { color: var(--muted); font-size: 0.88rem; }
+
+  /* DELETE CONFIRM */
+  .confirm-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(4px); z-index: 1100;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+    opacity: 0; pointer-events: none; transition: opacity 0.15s;
+  }
+  .confirm-overlay.open { opacity: 1; pointer-events: all; }
+  .confirm-box {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 28px; max-width: 360px; width: 100%;
+    transform: scale(0.96); transition: transform 0.15s;
+    text-align: center;
+  }
+  .confirm-overlay.open .confirm-box { transform: scale(1); }
+  .confirm-icon { font-size: 2.4rem; margin-bottom: 12px; }
+  .confirm-box h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; margin-bottom:8px; }
+  .confirm-box p { color: var(--muted); font-size: 0.85rem; margin-bottom: 24px; line-height:1.5; }
+  .confirm-actions { display: flex; gap: 10px; justify-content: center; }
+
   @media (max-width: 640px) {
-    .page-content { padding: 20px 16px; }
-    .grid { grid-template-columns: 1fr; }
+    .logo-area h1 { font-size: 1.6rem; }
+    .grid { grid-template-columns: 1fr 1fr; }
+    .grid.list-view { grid-template-columns: 1fr; }
+    .page-content { padding: 24px 16px; }
+    .bookmark-table .td-url { display: none; }
+    .manage-header { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
+
 <div class="container">
+
   <div class="page-nav">
-    <button class="page-tab active" id="tabViewBtn">📚 View Bookmarks</button>
-    <button class="page-tab" id="tabManageBtn">⚙️ Manage</button>
+    <button class="page-tab active" onclick="switchPage('view')">📚 View Bookmarks</button>
+    <button class="page-tab" onclick="switchPage('manage')">⚙️ Manage</button>
   </div>
 
-  <!-- VIEW PAGE -->
-  <div class="page-content" id="viewPageContent">
-    <div class="rainbow-banner">
-      <div class="rb-center">
-        <div class="rb-headline">✦ My Bookmarks ✦</div>
-        <p style="color:var(--muted); font-size:0.8rem;">All Needed Websites · Edit or delete from Manage</p>
+  <!-- ====== VIEW PAGE ====== -->
+  <div class="page-content" id="pageView">
+    <div class="page active" id="pageViewContent">
+
+      <header>
+        <!-- ══════════════ RAINBOW BANNER ══════════════ -->
+        <div class="rainbow-banner">
+          <div class="rb-bg"></div>
+          <div class="rb-overlay"></div>
+          <div class="rb-shapes left">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <rect x="8" y="8" width="36" height="36" rx="8" fill="rgba(255,255,255,0.25)"/>
+              <rect x="14" y="18" width="24" height="4" rx="2" fill="#fff" opacity="0.9"/>
+              <rect x="14" y="25" width="18" height="4" rx="2" fill="#fff" opacity="0.6"/>
+              <rect x="14" y="32" width="12" height="4" rx="2" fill="#fff" opacity="0.4"/>
+            </svg>
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+              <polygon points="23,6 40,36 6,36" fill="rgba(255,255,255,0.22)"/>
+              <polygon points="23,12 36,33 10,33" fill="rgba(255,255,255,0.15)"/>
+            </svg>
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="14" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="22" cy="22" r="8" fill="rgba(255,255,255,0.25)"/>
+              <line x1="22" y1="6" x2="22" y2="38" stroke="#fff" stroke-width="2" opacity="0.4"/>
+              <line x1="6" y1="22" x2="38" y2="22" stroke="#fff" stroke-width="2" opacity="0.4"/>
+            </svg>
+          </div>
+          <div class="rb-center">
+            <p class="rb-headline">My Bookmarks<span class="rb-dot"></span></p>
+            <p class="rb-sub1">All Needed Websites</p>
+            <p class="rb-sub2">You Can Edit or Delete From Here</p>
+          </div>
+          <div class="rb-shapes right">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <path d="M22 6L28 16H38L30 22L34 34L22 27L10 34L14 22L6 16H16Z" fill="rgba(255,255,255,0.25)"/>
+            </svg>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="8" y="10" width="20" height="28" rx="5" fill="rgba(255,255,255,0.2)"/>
+              <rect x="20" y="16" width="20" height="22" rx="5" fill="rgba(255,255,255,0.2)"/>
+            </svg>
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+              <circle cx="23" cy="23" r="15" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+              <circle cx="23" cy="23" r="8" fill="rgba(255,255,255,0.22)"/>
+              <line x1="23" y1="8" x2="23" y2="38" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+              <ellipse cx="23" cy="23" rx="8" ry="15" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="search-wrap" style="margin-top:16px; max-width:100%;">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search bookmarks…" />
+        </div>
+      </header>
+
+      <div class="stats-bar" id="statsBar"></div>
+
+      <div class="top-controls">
+        <div class="filter-row" id="filterRow">
+          <button class="filter-btn active" data-cat="all">All</button>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridBtn" title="Grid view">▦</button>
+          <button class="view-btn" id="listBtn" title="List view">☰</button>
+        </div>
       </div>
+
+      <div id="bookmarksRoot"></div>
+      <div class="no-results" id="noResults">
+        <h3>No bookmarks found</h3>
+        <p>Try a different search term</p>
+      </div>
+
     </div>
-    <div class="search-wrap">
-      <input type="text" id="searchInputView" placeholder="🔍 Search bookmarks..." style="width:100%; padding:10px 14px; background:var(--card); border:1px solid var(--border); border-radius:12px; color:white;" />
-    </div>
-    <div class="stats-bar" id="statsBar"></div>
-    <div class="filter-row" id="filterRowView"></div>
-    <div id="bookmarksRootView"></div>
-    <div id="noResultsView" style="display:none; text-align:center; padding:60px; color:var(--muted);">✨ No bookmarks match your search</div>
   </div>
 
-  <!-- MANAGE PAGE -->
-  <div class="page-content page-manage" id="managePageContent" style="display:none;">
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:28px;">
-      <div><h2 style="font-family:'Syne'; font-weight:800;">⚙️ Manage <span style="color:var(--accent)">Bookmarks</span></h2><p style="color:var(--muted); font-size:0.8rem;">Add, edit, delete categories & bookmarks</p></div>
-      <button class="btn btn-primary" id="globalAddBookmarkBtn">＋ Add Bookmark</button>
+  <!-- ====== MANAGE PAGE ====== -->
+  <div class="page-content page-manage" id="pageManage" style="display:none;">
+
+    <div class="manage-header">
+      <div>
+        <h2>⚙️ Manage <span>Bookmarks</span></h2>
+        <p style="color:var(--muted);font-size:0.85rem;margin-top:4px;">Add, edit, and delete your bookmarks and categories</p>
+      </div>
+      <button class="btn btn-primary" onclick="openAddModal()">＋ Add Bookmark</button>
     </div>
-    <div class="filter-row" id="manageFilterRow"></div>
-    <div style="background:var(--card); border:1px dashed var(--border); border-radius:14px; padding:12px 20px; margin-bottom:32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
-      <span style="color:var(--muted);">📁 Need a new category?</span>
-      <button class="btn btn-ghost btn-sm" id="globalAddCatBtn">＋ Add Category</button>
+
+    <div class="manage-cats" id="manageCats">
+      <button class="manage-cat-btn active" data-filter="all" onclick="filterManage('all',this)">All Categories</button>
     </div>
-    <div id="manageRootContainer"></div>
+
+    <div class="add-cat-section">
+      <span>Need a new category?</span>
+      <button class="btn btn-ghost btn-sm" onclick="openCatModal()">＋ Add Category</button>
+    </div>
+
+    <div id="manageRoot"></div>
+
   </div>
+
 </div>
 
-<!-- MODAL: BOOKMARK -->
+<!-- ADD/EDIT BOOKMARK MODAL -->
 <div class="modal-overlay" id="bookmarkModal">
   <div class="modal">
-    <div class="modal-title" id="bmModalTitle" style="font-family:'Syne'; font-size:1.4rem; font-weight:800; margin-bottom:20px;">Add <span style="color:var(--accent)">Bookmark</span></div>
-    <div class="form-group"><label>Name *</label><input type="text" id="bmName" placeholder="e.g., GitHub" /></div>
-    <div class="form-group"><label>URL *</label><input type="text" id="bmUrl" placeholder="https://..." /></div>
-    <div class="form-group"><label>Category</label><select id="bmCatSelect"></select></div>
-    <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:20px;">
-      <button class="btn btn-ghost" id="closeBmModalBtn">Cancel</button>
-      <button class="btn btn-primary" id="saveBookmarkBtn">Save</button>
+    <div class="modal-title" id="modalTitle">Add <span>Bookmark</span></div>
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" id="bmName" placeholder="e.g. GitHub" />
+    </div>
+    <div class="form-group">
+      <label>URL</label>
+      <input type="url" id="bmUrl" placeholder="https://…" />
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="bmCat"></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('bookmarkModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBookmark()">Save</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL: CATEGORY -->
+<!-- ADD/EDIT CATEGORY MODAL -->
 <div class="modal-overlay" id="catModal">
   <div class="modal">
-    <div class="modal-title" id="catModalTitle" style="font-family:'Syne'; font-size:1.4rem; font-weight:800; margin-bottom:20px;">Add <span style="color:var(--accent)">Category</span></div>
-    <div class="form-group"><label>Category Name</label><input type="text" id="catNameInput" placeholder="e.g., Design" /></div>
-    <div class="form-group"><label>Icon (emoji)</label><input type="text" id="catIconInput" placeholder="🎨" maxlength="4" /></div>
-    <div class="form-group"><label>Color Class</label><select id="catClassSelect"><option value="cat-ai">Purple (AI)</option><option value="cat-blog">Yellow (Blog)</option><option value="cat-app">Green (App)</option><option value="cat-web">Blue (Web)</option><option value="cat-cs">Pink (CS)</option><option value="cat-taka">Orange (Taka)</option><option value="cat-dev">Violet (Dev)</option><option value="cat-personal">Cyan (Personal)</option></select></div>
-    <div style="display:flex; gap:12px; justify-content:flex-end;"><button class="btn btn-ghost" id="closeCatModalBtn">Cancel</button><button class="btn btn-primary" id="saveCatBtn">Save</button></div>
+    <div class="modal-title" id="catModalTitle">Add <span>Category</span></div>
+    <div class="form-group">
+      <label>Category Name</label>
+      <input type="text" id="catName" placeholder="e.g. Design Resources" />
+    </div>
+    <div class="form-group">
+      <label>Icon (emoji)</label>
+      <input type="text" id="catIcon" placeholder="e.g. 🎨" maxlength="4" />
+    </div>
+    <div class="form-group">
+      <label>Color Class</label>
+      <select id="catCls">
+        <option value="cat-ai">Purple (AI)</option>
+        <option value="cat-blog">Yellow (Blog)</option>
+        <option value="cat-app">Green (App)</option>
+        <option value="cat-web">Blue (Web)</option>
+        <option value="cat-cs">Pink (CS)</option>
+        <option value="cat-taka">Orange (Taka)</option>
+        <option value="cat-dev">Violet (Dev)</option>
+        <option value="cat-personal">Cyan (Personal)</option>
+        <option value="cat-follow">Gold (Follow)</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('catModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCat()">Save</button>
+    </div>
   </div>
 </div>
 
-<!-- CONFIRM DELETE DIALOG -->
-<div class="confirm-overlay" id="confirmDialog">
-  <div class="confirm-box"><div style="font-size:2rem;">🗑️</div><h3 id="confirmTitle">Delete?</h3><p id="confirmMessage">This action cannot be undone.</p><div style="display:flex; gap:12px; justify-content:center; margin-top:20px;"><button class="btn btn-ghost" id="cancelConfirmBtn">Cancel</button><button class="btn btn-danger" id="executeConfirmBtn">Delete</button></div></div>
+<!-- CONFIRM DELETE -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <h3 id="confirmTitle">Delete Bookmark?</h3>
+    <p id="confirmMsg">This action cannot be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
 </div>
 
-<div class="toast" id="toastMsgBox"><span id="toastIcon">✓</span><span id="toastText">Done</span></div>
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span class="toast-icon" id="toastIcon">✓</span>
+  <span id="toastMsg">Done!</span>
+</div>
 
 <script>
-// ======================== DATA ==========================
-let categoriesData = [
-  { category: "AI Tools", icon: "🤖", cls: "cat-ai", links: [{ name: "Google Gemini", url: "https://gemini.google.com/app" }, { name: "DeepSeek", url: "https://chat.deepseek.com/" }, { name: "ChatGPT", url: "https://chatgpt.com/" }, { name: "Microsoft Copilot", url: "https://copilot.microsoft.com/" }] },
-  { category: "Blog Share", icon: "📝", cls: "cat-blog", links: [{ name: "Blog Post", url: "https://docs.google.com/document/d/1jpYqDiKkWELNXxqvQbGE-WYorxipZVbSn6JY_EdD0iQ/edit" }, { name: "Useful Sites", url: "https://docs.google.com/document/d/1FhCrlJSDXAT3Kv5u3JyIe7vm7mXCZI4CsFQcvyoqLYI/edit" }] },
-  { category: "App Making", icon: "⚙️", cls: "cat-app", links: [{ name: "Supabase", url: "https://supabase.com/dashboard" }] },
-  { category: "CS / Betting", icon: "🎰", cls: "cat-cs", links: [{ name: "3999bet", url: "https://www.3999bet00.com/" }, { name: "Babu88 Gold", url: "https://babu88.gold/" }] },
-  { category: "Takabd", icon: "💰", cls: "cat-taka", links: [{ name: "Takabd Doc", url: "https://docs.google.com/document/d/1ukLdGTnLG0KghLN2UVU08sdTOk1JzTKdXuwYUA4gwjI/edit" }] },
-  { category: "Dev Resources", icon: "🛠️", cls: "cat-dev", links: [{ name: "Kotlin Basics", url: "https://kotlinlang.org/" }] },
-  { category: "Follow Later", icon: "🔖", cls: "cat-follow", links: [{ name: "Premium Theme", url: "https://trickbd.com/blogger/" }] }
+// ─── DATA ───────────────────────────────────────────────────────────────────
+let data = [
+  {
+    category: "AI Tools", icon: "🤖", cls: "cat-ai",
+    links: [
+      { name: "G-Gemini", url: "https://gemini.google.com/app" },
+      { name: "DeepSeek", url: "https://chat.deepseek.com/" },
+      { name: "ChatGPT", url: "https://chatgpt.com/" },
+      { name: "LM Arena", url: "https://lmarena.ai/" },
+      { name: "Microsoft Copilot", url: "https://copilot.microsoft.com/" },
+      { name: "Yupp AI", url: "https://yupp.ai/" },
+      { name: "CodeWords", url: "https://codewords.agemo.ai/" },
+      { name: "Replit", url: "https://replit.com/@rockjromeovince" },
+      { name: "Natively Project", url: "https://natively.dev/project/430a06d8-d6d6-4181-807c-a1ae6056a447" },
+    ]
+  },
+  {
+    category: "Blog Share", icon: "📝", cls: "cat-blog",
+    links: [
+      { name: "Blog Post", url: "https://docs.google.com/document/d/1jpYqDiKkWELNXxqvQbGE-WYorxipZVbSn6JY_EdD0iQ/edit" },
+      { name: "Useful Sites Doc", url: "https://docs.google.com/document/d/1FhCrlJSDXAT3Kv5u3JyIe7vm7mXCZI4CsFQcvyoqLYI/edit" },
+      { name: "Raf-Page", url: "https://docs.google.com/document/d/1QgRKy9nuKpL-SVMFoUZDGz8ivu-YW8mzq3pdWFz5Ggg/edit" },
+    ]
+  },
+  {
+    category: "App Making", icon: "⚙️", cls: "cat-app",
+    links: [
+      { name: "App Making Prompt", url: "https://docs.google.com/document/d/1GlN4v9XAKwoNCcGaVK1PoPIM01rpe5ApbUZRd_uIV0Q/edit" },
+      { name: "Supabase Backend", url: "https://supabase.com/dashboard/project/wncweyknvyncsznsvqsx" },
+    ]
+  },
+  {
+    category: "Free Websites", icon: "🌐", cls: "cat-web",
+    links: [
+      { name: "Free Website Doc", url: "https://docs.google.com/document/d/1X6lB38xQI52LMB5YP5KWRwx0SlRHveHtjTVhduTg598/edit" },
+      { name: "Full CS List (Sheets)", url: "https://docs.google.com/spreadsheets/d/1S31d65jACUGRVuOcOH-SMWjx35rZEoLczWSx-Tz0kCI/edit" },
+      { name: "TinyWow PDF→Word", url: "https://tinywow.com/pdf/to-word" },
+      { name: "Codepen Collection", url: "https://docs.google.com/document/d/1y_TedeJACSaQqAJjDVTtk9Z0Y1F8pDoRteddZlJLocM/edit" },
+    ]
+  },
+  {
+    category: "CS / Betting Sites", icon: "🎰", cls: "cat-cs",
+    links: [
+      { name: "3999bet", url: "https://www.3999bet00.com/" },
+      { name: "1333bet", url: "https://www.1333bet.ai/" },
+      { name: "786bet", url: "https://www.786bet.com/" },
+      { name: "5666bet888", url: "https://www.5666bet888.com/" },
+      { name: "3666bet888", url: "https://www.3666bet888.com/" },
+      { name: "9777bet", url: "https://www.9777bet.win/" },
+      { name: "8777bet888", url: "https://www.8777bet888.com/" },
+      { name: "5777bet", url: "https://www.5777bet.win/" },
+      { name: "6777bet", url: "https://www.6777bet.win/" },
+      { name: "4777bet", url: "https://www.4777bet.win/" },
+      { name: "2777bet", url: "https://www.2777bet2.com/" },
+      { name: "1777bet888", url: "https://www.1777bet888.com/" },
+      { name: "3333bet", url: "https://www.3333bet00.com/" },
+      { name: "2222bet", url: "https://www.2222bet33.com/" },
+      { name: "499bet", url: "https://www.499bet11.com/" },
+      { name: "399bet", url: "https://www.399bet11.com/" },
+      { name: "299bet", url: "https://www.299bet6.com/" },
+      { name: "1111bet", url: "https://www.1111bet22.com/" },
+      { name: "BD Bajee", url: "https://www.24bdbajee.com/index" },
+      { name: "Babu88 Gold", url: "https://babu88.gold/profile/personal" },
+      { name: "C Baji", url: "https://www.85cbaji.vip/" },
+      { name: "F Bajee", url: "https://www.85fbajee.vip/index" },
+      { name: "G Bajee", url: "https://www.gl2bajee.com/index" },
+      { name: "Hi Bajee", url: "https://www.98hibajee.com/index" },
+      { name: "N Bajee", url: "https://www.n1ebajee.com/index" },
+      { name: "XBajee", url: "https://www.96xbajee.vip/" },
+      { name: "TJBET.COM", url: "https://www.tjbetbd.com/" },
+      { name: "T Bajee", url: "https://www.tbajee38.com/" },
+      { name: "88VIP Taka", url: "https://www.88viptaka.com/" },
+      { name: "Nagad88 Bet", url: "https://www.nagad88f.com/" },
+      { name: "CrazySpin777", url: "https://www.crazy777.club/" },
+      { name: "PP VIP", url: "https://www.ppvip08.com/" },
+      { name: "5z777.com", url: "https://www.5z777222.com/" },
+      { name: "R Bajee", url: "https://www.52216452.com/" },
+      { name: "Yesb88", url: "https://www.yesb88.com/" },
+      { name: "BN88 600% Bonus", url: "https://www.bn88.vip/" },
+      { name: "QQee.COM", url: "https://www.qqee3.com/" },
+      { name: "7u777 Bet", url: "https://www.7u7775.com/" },
+      { name: "DarazPlay Betting", url: "https://darazplay.me/bd/en" },
+      { name: "Jilihot BD", url: "https://www.jilihotbd1.com/" },
+      { name: "Jeetbuzz Live", url: "https://jeetbuzz66.me/bd/en" },
+      { name: "6Rwin.com", url: "https://www.6rwin11.com/" },
+      { name: "JT 999", url: "https://www.jt66.io/" },
+      { name: "Jeeta Bet", url: "https://www.jeeta.bet/" },
+      { name: "Dhaka888", url: "https://www.dhaka888.bond/" },
+      { name: "JeetWin Bangladesh", url: "https://www.jeet-winbdt.com/" },
+      { name: "FB77 Slot", url: "https://www.fb77.shop/" },
+      { name: "KK FB", url: "https://www.33kkfb.com/" },
+      { name: "Betjili365", url: "https://betjili365.com/bd/en" },
+      { name: "7J777 Bet", url: "https://www.7j777.bet/" },
+      { name: "SONA101", url: "https://www.sona105.com/" },
+      { name: "V7v7 Bet", url: "https://www.v7v79.com/" },
+      { name: "66zz Slot", url: "https://www.66zz1.com/" },
+      { name: "Asha777", url: "https://www.asha777.cc/" },
+      { name: "VS789", url: "https://www.vs789.cc/" },
+      { name: "L444 VIP", url: "https://www.l444vip.com/" },
+      { name: "Win.Bet Sportsbook", url: "https://win.bet/en-bd/sport/american-football/usa/nfl" },
+      { name: "LuckyBangla88", url: "https://luckybangla88.live/bank/player-history" },
+      { name: "CK44.COM", url: "https://www.ck444.pro/favorite" },
+      { name: "Baji Live Referral", url: "https://baji.live/bd/en/referral-program/details" },
+    ]
+  },
+  {
+    category: "Takabd", icon: "💰", cls: "cat-taka",
+    links: [
+      { name: "Takabd Doc", url: "https://docs.google.com/document/d/1ukLdGTnLG0KghLN2UVU08sdTOk1JzTKdXuwYUA4gwjI/edit" },
+      { name: "Google Keep Note", url: "https://keep.google.com/#NOTE/1FMDD6MQN3w1fwkRAcUR2E4hMMxDpEasFRuYg9yDw6qDmISvIZr2wrE3NlzblEEw" },
+      { name: "Name Logo Sheet", url: "https://docs.google.com/spreadsheets/d/106urnoAckEwLby7fLmaQlTYMSu6KvwRd-RtFb-hsbbA/edit" },
+      { name: "Bitly Link Shortener", url: "https://app.bitly.com/Bq3j5o1Lsio/links/" },
+      { name: "TinyURL Shortener", url: "https://tinyurl.com/" },
+      { name: "Data Input Form", url: "https://docs.google.com/spreadsheets/d/1OjXRy6Mm2o86i7I0PkTxZd641qRfDSKMjKMIdYYIsew/edit" },
+      { name: "Betting Account Control", url: "https://docs.google.com/spreadsheets/d/1KMHjboVvwouVWakFDqECrMNHEC9iAgqw5JC2H5jWXtc/edit" },
+    ]
+  },
+  {
+    category: "Dart / Kotlin Dev", icon: "🛠️", cls: "cat-dev",
+    links: [
+      { name: "Kotlin Basics", url: "https://docs.google.com/document/d/1dj53oe7XQO1Nm9zIMfsclpehgks93nGXlpwYruZvd_g/edit" },
+      { name: "Jetpack Compose", url: "https://docs.google.com/document/d/1e_Iimgb5KXrTh2-VTvSzqtRU1bunOGw18aOBkALaBQc/edit" },
+    ]
+  },
+  { category: "Personal Blog", icon: "🌟", cls: "cat-personal", links: [] },
+  {
+    category: "Follow Later", icon: "🔖", cls: "cat-follow",
+    links: [{ name: "Premium Blogger Theme 2026", url: "https://trickbd.com/blogger/3082679/" }]
+  },
+  {
+    category: "Current Bet Sheet", icon: "📊", cls: "cat-taka",
+    links: [{ name: "Current Bet — Google Sheets", url: "https://docs.google.com/spreadsheets/d/1-y5yMN3Ocj5SLJbT2BBBgkgO8eysocrXtoYc19tLwQQ/edit" }]
+  },
 ];
 
-// State
-let currentViewFilter = "all";
-let currentSearch = "";
-let currentManageFilter = "all";
-let editingBookmarkContext = null; // { catIdx, linkIdx }
-let editingCategoryIndex = null;
+// ─── STATE ──────────────────────────────────────────────────────────────────
+let currentFilter = 'all', currentView = 'grid', searchTerm = '';
+let currentPage = 'view';
+let manageFilter = 'all';
+let editingBm = null;
+let editingCat = null;
 let pendingDelete = null;
 
-// Helper: domain & favicon
-function getDomain(url) { try { return new URL(url).hostname.replace('www.', ''); } catch(e) { return ""; } }
-function faviconUrl(url) { return `https://www.google.com/s2/favicons?domain=${getDomain(url)}&sz=48`; }
-function initials(str) { return str.slice(0,2).toUpperCase(); }
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function getDomain(url) {
+  try { return new URL(url).hostname.replace('www.', ''); } catch { return ''; }
+}
+function getFaviconUrl(url) {
+  return `https://www.google.com/s2/favicons?domain=${getDomain(url)}&sz=64`;
+}
+function initials(name) { return name.slice(0, 2).toUpperCase(); }
 
-// Toast
-let toastTimer;
-function showToast(msg, type = "success") {
-  const toast = document.getElementById("toastMsgBox");
-  document.getElementById("toastText").innerText = msg;
-  document.getElementById("toastIcon").innerText = type === "success" ? "✓" : "⚠️";
-  toast.className = `toast ${type} show`;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove("show"), 2800);
+// ─── PAGE SWITCH ─────────────────────────────────────────────────────────────
+function switchPage(p) {
+  currentPage = p;
+  document.querySelectorAll('.page-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&p==='view')||(i===1&&p==='manage')));
+  document.getElementById('pageView').style.display = p === 'view' ? '' : 'none';
+  document.getElementById('pageManage').style.display = p === 'manage' ? '' : 'none';
+  if (p === 'manage') renderManage();
 }
 
-// refresh both Views
-function refreshAll() {
-  renderViewPage();
-  if (document.getElementById("managePageContent").style.display !== "none") renderManagePage();
-  updateStatsBar();
-}
+// ─── VIEW PAGE ───────────────────────────────────────────────────────────────
+function renderAll() {
+  const root = document.getElementById('bookmarksRoot');
+  root.innerHTML = '';
+  let anyVisible = false;
 
-function updateStatsBar() {
-  const totalLinks = categoriesData.reduce((s,c) => s + c.links.length, 0);
-  const totalCats = categoriesData.filter(c => c.links.length > 0).length;
-  document.getElementById("statsBar").innerHTML = `<div class="stat"><span class="stat-num">${totalLinks}</span><span>Bookmarks</span></div><div class="stat"><span class="stat-num">${totalCats}</span><span>Active Cats</span></div><div class="stat"><span class="stat-num">${categoriesData.find(c=>c.cls==='cat-cs')?.links.length||0}</span><span>Betting</span></div>`;
-}
+  data.forEach((cat, ci) => {
+    if (cat.links.length === 0) return;
+    if (currentFilter !== 'all' && cat.cls !== currentFilter) return;
+    const filteredLinks = cat.links.filter(l =>
+      !searchTerm || l.name.toLowerCase().includes(searchTerm) || getDomain(l.url).includes(searchTerm)
+    );
+    if (filteredLinks.length === 0) return;
+    anyVisible = true;
 
-// ======================= VIEW PAGE =======================
-function renderViewPage() {
-  const container = document.getElementById("bookmarksRootView");
-  container.innerHTML = "";
-  let hasVisible = false;
-  const filterCls = currentViewFilter;
-  const search = currentSearch.trim().toLowerCase();
-  
-  for (let cat of categoriesData) {
-    if (filterCls !== "all" && cat.cls !== filterCls) continue;
-    let filteredLinks = cat.links.filter(link => !search || link.name.toLowerCase().includes(search) || getDomain(link.url).includes(search));
-    if (filteredLinks.length === 0) continue;
-    hasVisible = true;
-    const sectionDiv = document.createElement("div");
-    sectionDiv.className = `section ${cat.cls}`;
-    sectionDiv.style.marginBottom = "32px";
-    sectionDiv.innerHTML = `<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;"><div style="font-size:1.4rem;">${cat.icon}</div><div style="font-weight:700; font-family:'Syne';">${cat.category}</div><div style="margin-left:auto; background:var(--border); padding:2px 8px; border-radius:30px; font-size:0.7rem;">${filteredLinks.length}</div></div>`;
-    const gridDiv = document.createElement("div");
-    gridDiv.className = "grid";
-    filteredLinks.forEach(link => {
-      const a = document.createElement("a");
-      a.className = "bookmark-card";
-      a.href = link.url; a.target = "_blank";
-      a.innerHTML = `<div class="favicon"><img src="${faviconUrl(link.url)}" onerror="this.style.display='none';this.parentNode.innerHTML+='<span style=\"font-size:0.7rem;\">${initials(link.name)}</span>'"><span class="favicon-fallback" style="display:none;"></span></div><div class="card-info"><div>${link.name}</div><div style="font-size:0.7rem; color:var(--muted);">${getDomain(link.url)}</div></div><span>↗</span>`;
-      gridDiv.appendChild(a);
-    });
-    sectionDiv.appendChild(gridDiv);
-    container.appendChild(sectionDiv);
-  }
-  document.getElementById("noResultsView").style.display = hasVisible ? "none" : "block";
-}
-
-function buildViewFilters() {
-  const row = document.getElementById("filterRowView");
-  row.innerHTML = `<button class="filter-btn active" data-cat="all">✨ All</button>`;
-  categoriesData.forEach(cat => {
-    if(cat.links.length === 0) return;
-    const btn = document.createElement("button");
-    btn.className = "filter-btn";
-    btn.innerText = `${cat.icon} ${cat.category}`;
-    btn.dataset.cat = cat.cls;
-    btn.onclick = () => {
-      currentViewFilter = cat.cls;
-      document.querySelectorAll("#filterRowView .filter-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderViewPage();
-    };
-    row.appendChild(btn);
-  });
-  row.firstChild.onclick = () => {
-    currentViewFilter = "all";
-    document.querySelectorAll("#filterRowView .filter-btn").forEach(b => b.classList.remove("active"));
-    row.firstChild.classList.add("active");
-    renderViewPage();
-  };
-}
-
-// ======================= MANAGE PAGE =======================
-function renderManagePage() {
-  const root = document.getElementById("manageRootContainer");
-  if (!root) return;
-  root.innerHTML = "";
-  let filteredCats = categoriesData.filter(cat => currentManageFilter === "all" || cat.cls === currentManageFilter);
-  for (let idx = 0; idx < filteredCats.length; idx++) {
-    const cat = filteredCats[idx];
-    const originalIdx = categoriesData.findIndex(c => c === cat);
-    const secDiv = document.createElement("div");
-    secDiv.className = "manage-section";
-    secDiv.innerHTML = `
-      <div class="manage-section-header">
-        <div class="section-icon" style="font-size:1.3rem;">${cat.icon}</div>
-        <span style="font-weight:700;">${cat.category}</span>
-        <span style="background:var(--border); padding:0px 8px; border-radius:20px; font-size:0.7rem;">${cat.links.length}</span>
-        <div style="margin-left:auto; display:flex; gap:6px;">
-          <button class="btn btn-ghost btn-sm edit-cat-trigger" data-catidx="${originalIdx}">✏️ Edit Cat</button>
-          <button class="btn btn-danger btn-sm delete-cat-trigger" data-catidx="${originalIdx}">🗑️ Cat</button>
-        </div>
+    const sec = document.createElement('div');
+    sec.className = `section ${cat.cls}`;
+    sec.style.animationDelay = `${ci * 0.04}s`;
+    sec.innerHTML = `
+      <div class="section-header">
+        <div class="section-icon">${cat.icon}</div>
+        <span class="section-title">${cat.category}</span>
+        <span class="section-count">${filteredLinks.length}</span>
       </div>`;
-    if (cat.links.length === 0) {
-      secDiv.innerHTML += `<div class="empty-cat">📭 No bookmarks yet. <button class="btn btn-ghost btn-sm add-first-bm" data-catidx="${originalIdx}">＋ Add Bookmark</button></div>`;
-    } else {
-      let tableHtml = `<table class="bookmark-table"><thead><tr><th style="width:40px"></th><th>Name</th><th>URL</th><th style="width:100px">Actions</th></tr></thead><tbody>`;
-      cat.links.forEach((link, linkIdx) => {
-        tableHtml += `<tr>
-          <td><div class="favicon" style="width:26px;height:26px;"><img src="${faviconUrl(link.url)}" style="width:100%;" onerror="this.style.display='none'"><span style="font-size:0.7rem;">${initials(link.name)}</span></div></td>
-          <td><strong>${escapeHtml(link.name)}</strong></td>
-          <td style="max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><a href="${link.url}" target="_blank" style="color:var(--accent);">${link.url}</a></td>
-          <td><div style="display:flex; gap:6px;"><button class="btn btn-ghost btn-sm edit-bm-btn" data-catidx="${originalIdx}" data-linkidx="${linkIdx}">✏️</button><button class="btn btn-danger btn-sm delete-bm-btn" data-catidx="${originalIdx}" data-linkidx="${linkIdx}">🗑️</button></div></td>
-        </tr>`;
-      });
-      tableHtml += `</tbody></table>`;
-      secDiv.innerHTML += tableHtml;
-    }
-    root.appendChild(secDiv);
-  }
-  // Attach dynamic events for manage buttons
-  document.querySelectorAll(".edit-cat-trigger").forEach(btn => {
-    btn.addEventListener("click", (e) => { const ci = parseInt(btn.dataset.catidx); openCategoryModalForEdit(ci); });
+    const grid = document.createElement('div');
+    grid.className = `grid${currentView === 'list' ? ' list-view' : ''}`;
+    filteredLinks.forEach(link => {
+      const a = document.createElement('a');
+      a.className = 'bookmark-card';
+      a.href = link.url; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.title = link.name;
+      const nameHtml = searchTerm
+        ? link.name.replace(new RegExp(`(${searchTerm})`, 'gi'), '<mark class="highlight">$1</mark>')
+        : link.name;
+      a.innerHTML = `
+        <div class="favicon">
+          <img src="${getFaviconUrl(link.url)}" alt="" loading="lazy"
+            onerror="this.style.display='none';this.parentNode.querySelector('.favicon-fallback').style.display='flex'">
+          <span class="favicon-fallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center">${initials(link.name)}</span>
+        </div>
+        <div class="card-info">
+          <div class="card-name">${nameHtml}</div>
+          <div class="card-domain">${getDomain(link.url)}</div>
+        </div>
+        <span class="card-arrow">↗</span>`;
+      grid.appendChild(a);
+    });
+    sec.appendChild(grid);
+    root.appendChild(sec);
   });
-  document.querySelectorAll(".delete-cat-trigger").forEach(btn => {
-    btn.addEventListener("click", (e) => { const ci = parseInt(btn.dataset.catidx); askDeleteCategory(ci); });
-  });
-  document.querySelectorAll(".add-first-bm").forEach(btn => {
-    btn.addEventListener("click", (e) => { const ci = parseInt(btn.dataset.catidx); openAddBookmarkModal(ci); });
-  });
-  document.querySelectorAll(".edit-bm-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => { const ci = parseInt(btn.dataset.catidx); const li = parseInt(btn.dataset.linkidx); openEditBookmarkModal(ci, li); });
-  });
-  document.querySelectorAll(".delete-bm-btn").forEach(btn => {
-    btn.addEventListener("click", (e) => { const ci = parseInt(btn.dataset.catidx); const li = parseInt(btn.dataset.linkidx); askDeleteBookmark(ci, li); });
-  });
+  document.getElementById('noResults').style.display = anyVisible ? 'none' : 'block';
 }
 
-function buildManageFilters() {
-  const row = document.getElementById("manageFilterRow");
-  row.innerHTML = `<button class="filter-btn active manage-cat-filter" data-filter="all">📌 All Categories</button>`;
-  categoriesData.forEach(cat => {
-    const btn = document.createElement("button");
-    btn.className = "filter-btn manage-cat-filter";
-    btn.innerText = `${cat.icon} ${cat.category}`;
-    btn.dataset.filter = cat.cls;
+function buildStats() {
+  const totalLinks = data.reduce((s, c) => s + c.links.length, 0);
+  const totalCats = data.filter(c => c.links.length > 0).length;
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><span class="stat-num">${totalLinks}</span><span class="stat-label">Total Bookmarks</span></div>
+    <div class="stat"><span class="stat-num">${totalCats}</span><span class="stat-label">Categories</span></div>
+    <div class="stat"><span class="stat-num">${data.find(c=>c.cls==='cat-cs')?.links.length||0}</span><span class="stat-label">Betting Sites</span></div>
+    <div class="stat"><span class="stat-num">${data.find(c=>c.cls==='cat-ai')?.links.length||0}</span><span class="stat-label">AI Tools</span></div>
+  `;
+}
+
+function buildFilters() {
+  const row = document.getElementById('filterRow');
+  row.innerHTML = '<button class="filter-btn active" data-cat="all">All</button>';
+  data.filter(c => c.links.length > 0).forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn'; btn.dataset.cat = cat.cls;
+    btn.textContent = `${cat.icon} ${cat.category}`;
     btn.onclick = () => {
-      currentManageFilter = cat.cls;
-      document.querySelectorAll(".manage-cat-filter").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      renderManagePage();
+      currentFilter = cat.cls;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active'); renderAll();
     };
     row.appendChild(btn);
   });
-  row.firstChild.onclick = () => {
-    currentManageFilter = "all";
-    document.querySelectorAll(".manage-cat-filter").forEach(b => b.classList.remove("active"));
-    row.firstChild.classList.add("active");
-    renderManagePage();
+  row.querySelector('[data-cat="all"]').onclick = () => {
+    currentFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    row.querySelector('[data-cat="all"]').classList.add('active'); renderAll();
   };
 }
 
-// ========== BOOKMARK MODAL LOGIC ==========
-let currentBookmarkCatIdx = null;
-let currentBookmarkLinkIdx = null;
-function openAddBookmarkModal(preferredCatIdx = null) {
-  editingBookmarkContext = null;
-  currentBookmarkCatIdx = null;
-  currentBookmarkLinkIdx = null;
-  document.getElementById("bmModalTitle").innerHTML = "Add <span style='color:var(--accent)'>Bookmark</span>";
-  document.getElementById("bmName").value = "";
-  document.getElementById("bmUrl").value = "";
-  populateCategorySelect();
-  if (preferredCatIdx !== null && categoriesData[preferredCatIdx]) {
-    document.getElementById("bmCatSelect").value = preferredCatIdx;
-  }
-  document.getElementById("bookmarkModal").classList.add("open");
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  currentFilter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector('[data-cat="all"]').classList.add('active');
+  renderAll();
+});
+document.getElementById('gridBtn').onclick = () => {
+  currentView = 'grid';
+  document.getElementById('gridBtn').classList.add('active');
+  document.getElementById('listBtn').classList.remove('active'); renderAll();
+};
+document.getElementById('listBtn').onclick = () => {
+  currentView = 'list';
+  document.getElementById('listBtn').classList.add('active');
+  document.getElementById('gridBtn').classList.remove('active'); renderAll();
+};
+
+// ─── MANAGE PAGE ─────────────────────────────────────────────────────────────
+function buildManageCats() {
+  const el = document.getElementById('manageCats');
+  el.innerHTML = '<button class="manage-cat-btn active" data-filter="all" onclick="filterManage(\'all\',this)">All Categories</button>';
+  data.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'manage-cat-btn'; btn.dataset.filter = cat.cls;
+    btn.textContent = `${cat.icon} ${cat.category}`;
+    btn.setAttribute('onclick', `filterManage('${cat.cls}',this)`);
+    el.appendChild(btn);
+  });
 }
-function openEditBookmarkModal(catIdx, linkIdx) {
-  const link = categoriesData[catIdx].links[linkIdx];
-  if (!link) return;
-  editingBookmarkContext = { catIdx, linkIdx };
-  currentBookmarkCatIdx = catIdx;
-  currentBookmarkLinkIdx = linkIdx;
-  document.getElementById("bmModalTitle").innerHTML = "Edit <span style='color:var(--accent)'>Bookmark</span>";
-  document.getElementById("bmName").value = link.name;
-  document.getElementById("bmUrl").value = link.url;
-  populateCategorySelect();
-  document.getElementById("bmCatSelect").value = catIdx;
-  document.getElementById("bookmarkModal").classList.add("open");
+
+function filterManage(f, btn) {
+  manageFilter = f;
+  document.querySelectorAll('.manage-cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderManage();
 }
-function populateCategorySelect() {
-  const sel = document.getElementById("bmCatSelect");
-  sel.innerHTML = "";
-  categoriesData.forEach((cat, idx) => {
-    const opt = document.createElement("option");
-    opt.value = idx;
-    opt.textContent = `${cat.icon} ${cat.category}`;
+
+function renderManage() {
+  buildManageCats();
+  const root = document.getElementById('manageRoot');
+  root.innerHTML = '';
+  data.forEach((cat, ci) => {
+    if (manageFilter !== 'all' && cat.cls !== manageFilter) return;
+    const sec = document.createElement('div');
+    sec.className = 'manage-section';
+    sec.style.animationDelay = `${ci * 0.04}s`;
+
+    sec.innerHTML = `
+      <div class="manage-section-header ${cat.cls}">
+        <div class="section-icon">${cat.icon}</div>
+        <span class="section-title">${cat.category}</span>
+        <span class="section-count">${cat.links.length}</span>
+        <button class="btn btn-ghost btn-sm edit-cat-btn" onclick="openEditCatModal(${ci})">✏️ Edit</button>
+        <button class="btn btn-danger btn-sm" style="margin-left:6px" onclick="askDeleteCat(${ci})">🗑️</button>
+      </div>`;
+
+    if (cat.links.length === 0) {
+      sec.innerHTML += `<div class="empty-cat">No bookmarks in this category. <button class="btn btn-ghost btn-sm" style="margin-left:8px" onclick="openAddModal(${ci})">＋ Add one</button></div>`;
+    } else {
+      const tbl = document.createElement('table');
+      tbl.className = 'bookmark-table';
+      tbl.innerHTML = `<thead><tr><th class="td-favicon"></th><th>Name</th><th>URL</th><th class="td-actions">Actions</th></tr></thead>`;
+      const tbody = document.createElement('tbody');
+      cat.links.forEach((link, li) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="td-favicon">
+            <div class="favicon">
+              <img src="${getFaviconUrl(link.url)}" alt="" loading="lazy"
+                onerror="this.style.display='none';this.parentNode.querySelector('.favicon-fallback').style.display='flex'">
+              <span class="favicon-fallback" style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700;color:var(--accent)">${initials(link.name)}</span>
+            </div>
+          </td>
+          <td class="td-name">${link.name}</td>
+          <td class="td-url"><a href="${link.url}" target="_blank" rel="noopener">${link.url}</a></td>
+          <td class="td-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openEditModal(${ci},${li})">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="askDeleteBm(${ci},${li})">🗑️</button>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+      tbl.appendChild(tbody);
+      sec.appendChild(tbl);
+    }
+    root.appendChild(sec);
+  });
+}
+
+// ─── MODALS ──────────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function populateCatSelect(selectedCls) {
+  const sel = document.getElementById('bmCat');
+  sel.innerHTML = '';
+  data.forEach((cat, i) => {
+    const opt = document.createElement('option');
+    opt.value = i; opt.textContent = `${cat.icon} ${cat.category}`;
+    if (cat.cls === selectedCls) opt.selected = true;
     sel.appendChild(opt);
   });
 }
-function saveBookmarkHandler() {
-  const name = document.getElementById("bmName").value.trim();
-  let url = document.getElementById("bmUrl").value.trim();
-  const targetCatIdx = parseInt(document.getElementById("bmCatSelect").value);
-  if (!name) { showToast("Name required", "error"); return; }
-  if (!url) { showToast("URL required", "error"); return; }
-  if (!url.startsWith("http")) url = "https://" + url;
-  if (editingBookmarkContext !== null) {
-    // remove from old position
-    const oldCat = categoriesData[editingBookmarkContext.catIdx];
-    if (oldCat && oldCat.links[editingBookmarkContext.linkIdx]) {
-      const movedLink = { name, url };
-      oldCat.links.splice(editingBookmarkContext.linkIdx, 1);
-      categoriesData[targetCatIdx].links.push(movedLink);
-      showToast("Bookmark updated & moved", "success");
-    } else { showToast("Error updating", "error"); }
-    editingBookmarkContext = null;
+
+function openAddModal(catIdx) {
+  editingBm = null;
+  document.getElementById('modalTitle').innerHTML = 'Add <span>Bookmark</span>';
+  document.getElementById('bmName').value = '';
+  document.getElementById('bmUrl').value = '';
+  populateCatSelect(catIdx !== undefined ? data[catIdx].cls : null);
+  if (catIdx !== undefined) document.getElementById('bmCat').value = catIdx;
+  openModal('bookmarkModal');
+}
+
+function openEditModal(ci, li) {
+  editingBm = { catIdx: ci, linkIdx: li };
+  const link = data[ci].links[li];
+  document.getElementById('modalTitle').innerHTML = 'Edit <span>Bookmark</span>';
+  document.getElementById('bmName').value = link.name;
+  document.getElementById('bmUrl').value = link.url;
+  populateCatSelect(data[ci].cls);
+  document.getElementById('bmCat').value = ci;
+  openModal('bookmarkModal');
+}
+
+function saveBookmark() {
+  const name = document.getElementById('bmName').value.trim();
+  const url = document.getElementById('bmUrl').value.trim();
+  const catIdx = parseInt(document.getElementById('bmCat').value);
+
+  if (!name) { showToast('Please enter a name', 'error'); return; }
+  if (!url) { showToast('Please enter a URL', 'error'); return; }
+
+  let fullUrl = url;
+  if (!url.startsWith('http://') && !url.startsWith('https://')) fullUrl = 'https://' + url;
+
+  if (editingBm) {
+    data[editingBm.catIdx].links.splice(editingBm.linkIdx, 1);
+    data[catIdx].links.push({ name, url: fullUrl });
+    showToast('Bookmark updated!', 'success');
   } else {
-    categoriesData[targetCatIdx].links.push({ name, url });
-    showToast("Bookmark added", "success");
+    data[catIdx].links.push({ name, url: fullUrl });
+    showToast('Bookmark added!', 'success');
   }
-  document.getElementById("bookmarkModal").classList.remove("open");
+
+  closeModal('bookmarkModal');
   refreshAll();
 }
 
-// ========== CATEGORY MODAL ==========
-function openCategoryModalForEdit(catIdx) {
-  editingCategoryIndex = catIdx;
-  const cat = categoriesData[catIdx];
-  document.getElementById("catModalTitle").innerHTML = "Edit <span style='color:var(--accent)'>Category</span>";
-  document.getElementById("catNameInput").value = cat.category;
-  document.getElementById("catIconInput").value = cat.icon;
-  document.getElementById("catClassSelect").value = cat.cls;
-  document.getElementById("catModal").classList.add("open");
+function openCatModal() {
+  editingCat = null;
+  document.getElementById('catModalTitle').innerHTML = 'Add <span>Category</span>';
+  document.getElementById('catName').value = '';
+  document.getElementById('catIcon').value = '';
+  document.getElementById('catCls').value = 'cat-ai';
+  openModal('catModal');
 }
-function openAddCategoryModal() {
-  editingCategoryIndex = null;
-  document.getElementById("catModalTitle").innerHTML = "Add <span style='color:var(--accent)'>Category</span>";
-  document.getElementById("catNameInput").value = "";
-  document.getElementById("catIconInput").value = "📁";
-  document.getElementById("catClassSelect").value = "cat-ai";
-  document.getElementById("catModal").classList.add("open");
+
+function openEditCatModal(ci) {
+  editingCat = ci;
+  const cat = data[ci];
+  document.getElementById('catModalTitle').innerHTML = 'Edit <span>Category</span>';
+  document.getElementById('catName').value = cat.category;
+  document.getElementById('catIcon').value = cat.icon;
+  document.getElementById('catCls').value = cat.cls;
+  openModal('catModal');
 }
-function saveCategoryHandler() {
-  const name = document.getElementById("catNameInput").value.trim();
-  const icon = document.getElementById("catIconInput").value.trim() || "📌";
-  const cls = document.getElementById("catClassSelect").value;
-  if (!name) { showToast("Category name required", "error"); return; }
-  if (editingCategoryIndex !== null) {
-    categoriesData[editingCategoryIndex].category = name;
-    categoriesData[editingCategoryIndex].icon = icon;
-    categoriesData[editingCategoryIndex].cls = cls;
-    showToast("Category updated", "success");
-    editingCategoryIndex = null;
+
+function saveCat() {
+  const name = document.getElementById('catName').value.trim();
+  const icon = document.getElementById('catIcon').value.trim() || '📁';
+  const cls = document.getElementById('catCls').value;
+
+  if (!name) { showToast('Please enter a category name', 'error'); return; }
+
+  if (editingCat !== null) {
+    data[editingCat].category = name;
+    data[editingCat].icon = icon;
+    data[editingCat].cls = cls;
+    showToast('Category updated!', 'success');
   } else {
-    categoriesData.push({ category: name, icon, cls, links: [] });
-    showToast("Category added", "success");
+    data.push({ category: name, icon, cls, links: [] });
+    showToast('Category added!', 'success');
   }
-  document.getElementById("catModal").classList.remove("open");
+
+  closeModal('catModal');
   refreshAll();
 }
 
-// DELETE confirmations
-function askDeleteBookmark(catIdx, linkIdx) {
-  const linkName = categoriesData[catIdx].links[linkIdx]?.name || "bookmark";
-  pendingDelete = { type: "bookmark", catIdx, linkIdx, name: linkName };
-  document.getElementById("confirmTitle").innerText = "Delete Bookmark?";
-  document.getElementById("confirmMessage").innerHTML = `"${linkName}" will be removed.`;
-  document.getElementById("confirmDialog").classList.add("open");
+// ─── DELETE ──────────────────────────────────────────────────────────────────
+function askDeleteBm(ci, li) {
+  pendingDelete = { type: 'bm', catIdx: ci, linkIdx: li };
+  document.getElementById('confirmTitle').textContent = 'Delete Bookmark?';
+  document.getElementById('confirmMsg').textContent = `"${data[ci].links[li].name}" will be permanently removed.`;
+  document.getElementById('confirmOverlay').classList.add('open');
 }
-function askDeleteCategory(catIdx) {
-  const catName = categoriesData[catIdx].category;
-  pendingDelete = { type: "category", catIdx, name: catName };
-  document.getElementById("confirmTitle").innerText = "Delete Category?";
-  document.getElementById("confirmMessage").innerHTML = `"${catName}" and all its bookmarks will be deleted permanently.`;
-  document.getElementById("confirmDialog").classList.add("open");
+
+function askDeleteCat(ci) {
+  pendingDelete = { type: 'cat', catIdx: ci };
+  document.getElementById('confirmTitle').textContent = 'Delete Category?';
+  document.getElementById('confirmMsg').textContent = `"${data[ci].category}" and all ${data[ci].links.length} bookmark(s) inside will be permanently removed.`;
+  document.getElementById('confirmOverlay').classList.add('open');
 }
-function executeDelete() {
-  if (!pendingDelete) return;
-  if (pendingDelete.type === "bookmark") {
-    categoriesData[pendingDelete.catIdx].links.splice(pendingDelete.linkIdx, 1);
-    showToast("Bookmark deleted", "success");
-  } else if (pendingDelete.type === "category") {
-    categoriesData.splice(pendingDelete.catIdx, 1);
-    showToast("Category deleted", "success");
-  }
+
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
   pendingDelete = null;
-  document.getElementById("confirmDialog").classList.remove("open");
+}
+
+function confirmDelete() {
+  if (!pendingDelete) return;
+  if (pendingDelete.type === 'bm') {
+    data[pendingDelete.catIdx].links.splice(pendingDelete.linkIdx, 1);
+    showToast('Bookmark deleted', 'success');
+  } else {
+    data.splice(pendingDelete.catIdx, 1);
+    showToast('Category deleted', 'success');
+  }
+  closeConfirm();
   refreshAll();
 }
 
-function escapeHtml(str) { return str.replace(/[&<>]/g, function(m){if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-function closeModalsOnOutsideClick() {
-  document.querySelectorAll(".modal-overlay, .confirm-overlay").forEach(overlay => {
-    overlay.addEventListener("click", (e) => { if(e.target === overlay) overlay.classList.remove("open"); });
+document.getElementById('confirmOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirm();
+});
+['bookmarkModal','catModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) closeModal(id);
   });
+});
+
+// ─── TOAST ───────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, type='success') {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastIcon').textContent = type === 'success' ? '✓' : '✕';
+  t.className = `toast ${type} show`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ========== PAGE SWITCH & INIT ==========
-function switchToView() {
-  document.getElementById("viewPageContent").style.display = "block";
-  document.getElementById("managePageContent").style.display = "none";
-  document.querySelectorAll(".page-tab")[0].classList.add("active");
-  document.querySelectorAll(".page-tab")[1].classList.remove("active");
-  renderViewPage();
-}
-function switchToManage() {
-  document.getElementById("viewPageContent").style.display = "none";
-  document.getElementById("managePageContent").style.display = "block";
-  document.querySelectorAll(".page-tab")[1].classList.add("active");
-  document.querySelectorAll(".page-tab")[0].classList.remove("active");
-  buildManageFilters();
-  renderManagePage();
+// ─── REFRESH ALL ─────────────────────────────────────────────────────────────
+function refreshAll() {
+  buildStats();
+  buildFilters();
+  renderAll();
+  if (currentPage === 'manage') renderManage();
 }
 
-document.getElementById("tabViewBtn").addEventListener("click", switchToView);
-document.getElementById("tabManageBtn").addEventListener("click", switchToManage);
-document.getElementById("globalAddBookmarkBtn").addEventListener("click", () => openAddBookmarkModal());
-document.getElementById("globalAddCatBtn").addEventListener("click", openAddCategoryModal);
-document.getElementById("saveBookmarkBtn").addEventListener("click", saveBookmarkHandler);
-document.getElementById("saveCatBtn").addEventListener("click", saveCategoryHandler);
-document.getElementById("closeBmModalBtn").addEventListener("click", () => document.getElementById("bookmarkModal").classList.remove("open"));
-document.getElementById("closeCatModalBtn").addEventListener("click", () => document.getElementById("catModal").classList.remove("open"));
-document.getElementById("cancelConfirmBtn").addEventListener("click", () => document.getElementById("confirmDialog").classList.remove("open"));
-document.getElementById("executeConfirmBtn").addEventListener("click", executeDelete);
-document.getElementById("searchInputView").addEventListener("input", (e) => { currentSearch = e.target.value; renderViewPage(); });
-
-// Final init
-buildViewFilters();
-renderViewPage();
-updateStatsBar();
-closeModalsOnOutsideClick();
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildStats();
+buildFilters();
+renderAll();
 </script>
 </body>
 </html>
