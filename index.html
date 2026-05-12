@@ -96,21 +96,9 @@
   .page.active { display: block; }
 
   /* HEADER */
-  header { padding-bottom: 32px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
-  .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-  .logo-area h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: 2.2rem;
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 60%, var(--accent3) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .logo-area p { color: var(--muted); font-size: 0.9rem; margin-top: 4px; font-weight: 300; }
+  header { padding-bottom: 24px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
 
-  .search-wrap { position: relative; flex: 1; max-width: 360px; }
+  .search-wrap { position: relative; width: 100%; max-width: 100%; }
   .search-wrap input {
     width: 100%;
     background: var(--card);
@@ -126,6 +114,110 @@
   .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--glow); }
   .search-wrap input::placeholder { color: var(--muted); }
   .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 1rem; }
+
+  /* ── SITE BANNER ── */
+  .rainbow-banner {
+    width: 100%;
+    min-height: 90px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0;
+    padding: 18px 170px;
+  }
+  .rb-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #0e0c1e 0%, #13102a 40%, #0f1a1a 100%);
+  }
+  .rb-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 80% at 15% 50%, rgba(124,106,255,0.22) 0%, transparent 70%),
+      radial-gradient(ellipse 45% 70% at 85% 50%, rgba(106,255,184,0.14) 0%, transparent 70%),
+      radial-gradient(ellipse 30% 60% at 50% 50%, rgba(255,106,158,0.10) 0%, transparent 70%);
+  }
+  .rb-border-line {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+    background-size: 300% 100%;
+    animation: rbShimmer 4s linear infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1px;
+  }
+  @keyframes rbShimmer {
+    0%   { background-position: 0%   0%; }
+    100% { background-position: 300% 0%; }
+  }
+  .rb-shapes { position: absolute; top:0; bottom:0; display:flex; align-items:center; gap:8px; padding:0 20px; z-index:2; }
+  .rb-shapes.left  { left:0; }
+  .rb-shapes.right { right:0; }
+  .rb-shape {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    border: 1px solid rgba(124,106,255,0.3);
+    background: rgba(124,106,255,0.1);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .rb-shape.pink  { border-color: rgba(255,106,158,0.3); background: rgba(255,106,158,0.1); }
+  .rb-shape.green { border-color: rgba(106,255,184,0.3); background: rgba(106,255,184,0.1); }
+  .rb-center {
+    position: relative; z-index: 3; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .rb-headline {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(17px, 3vw, 26px);
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin: 0;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 55%, var(--accent3) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .rb-sub1 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(11px, 1.5vw, 13px);
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.03em;
+    margin: 0;
+    opacity: 0.85;
+  }
+  .rb-sub2 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(10px, 1.3vw, 12px);
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+  @media (max-width: 768px) {
+    .rainbow-banner { padding: 16px 120px; }
+  }
+  @media (max-width: 600px) {
+    .rainbow-banner { padding: 16px 10px; min-height: 80px; }
+    .rb-shapes { gap: 5px; padding: 0 8px; }
+    .rb-shape { width: 26px; height: 26px; border-radius: 7px; }
+    .rb-shape svg { width: 13px; height: 13px; }
+  }
+  @media (max-width: 380px) {
+    .rb-shapes.right { display: none; }
+    .rb-shapes.left { padding: 0 6px; }
+  }
 
   /* STATS */
   .stats-bar { display: flex; gap: 16px; margin-bottom: 32px; flex-wrap: wrap; }
@@ -410,15 +502,53 @@
     <div class="page active" id="pageViewContent">
 
       <header>
-        <div class="header-inner">
-          <div class="logo-area">
-            <h1>⚡ My Bookmarks</h1>
-            <p>All your links, beautifully organized</p>
+        <!-- ══════════════ RAINBOW BANNER ══════════════ -->
+        <div class="rainbow-banner">
+          <div class="rb-bg"></div>
+          <div class="rb-overlay"></div>
+          <div class="rb-shapes left">
+            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+              <rect x="8" y="8" width="36" height="36" rx="8" fill="rgba(255,255,255,0.25)"/>
+              <rect x="14" y="18" width="24" height="4" rx="2" fill="#fff" opacity="0.9"/>
+              <rect x="14" y="25" width="18" height="4" rx="2" fill="#fff" opacity="0.6"/>
+              <rect x="14" y="32" width="12" height="4" rx="2" fill="#fff" opacity="0.4"/>
+            </svg>
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+              <polygon points="23,6 40,36 6,36" fill="rgba(255,255,255,0.22)"/>
+              <polygon points="23,12 36,33 10,33" fill="rgba(255,255,255,0.15)"/>
+            </svg>
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <circle cx="22" cy="22" r="14" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="22" cy="22" r="8" fill="rgba(255,255,255,0.25)"/>
+              <line x1="22" y1="6" x2="22" y2="38" stroke="#fff" stroke-width="2" opacity="0.4"/>
+              <line x1="6" y1="22" x2="38" y2="22" stroke="#fff" stroke-width="2" opacity="0.4"/>
+            </svg>
           </div>
-          <div class="search-wrap">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="searchInput" placeholder="Search bookmarks…" />
+          <div class="rb-center">
+            <p class="rb-headline">My Bookmarks<span class="rb-dot"></span></p>
+            <p class="rb-sub1">All Needed Websites</p>
+            <p class="rb-sub2">You Can Edit or Delete From Here</p>
           </div>
+          <div class="rb-shapes right">
+            <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+              <path d="M22 6L28 16H38L30 22L34 34L22 27L10 34L14 22L6 16H16Z" fill="rgba(255,255,255,0.25)"/>
+            </svg>
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+              <rect x="8" y="10" width="20" height="28" rx="5" fill="rgba(255,255,255,0.2)"/>
+              <rect x="20" y="16" width="20" height="22" rx="5" fill="rgba(255,255,255,0.2)"/>
+            </svg>
+            <svg width="46" height="46" viewBox="0 0 46 46" fill="none">
+              <circle cx="23" cy="23" r="15" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="3"/>
+              <circle cx="23" cy="23" r="8" fill="rgba(255,255,255,0.22)"/>
+              <line x1="23" y1="8" x2="23" y2="38" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+              <ellipse cx="23" cy="23" rx="8" ry="15" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+        <!-- ══════════════════════════════════════════════ -->
+        <div class="search-wrap" style="margin-top:16px; max-width:100%;">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search bookmarks…" />
         </div>
       </header>
 
@@ -684,9 +814,9 @@ let data = [
 let currentFilter = 'all', currentView = 'grid', searchTerm = '';
 let currentPage = 'view';
 let manageFilter = 'all';
-let editingBm = null; // { catIdx, linkIdx }
-let editingCat = null; // catIdx
-let pendingDelete = null; // { type:'bm'|'cat', catIdx, linkIdx? }
+let editingBm = null;
+let editingCat = null;
+let pendingDelete = null;
 
 // ─── HELPERS ────────────────────────────────────────────────────────────────
 function getDomain(url) {
@@ -927,9 +1057,7 @@ function saveBookmark() {
   if (!url.startsWith('http://') && !url.startsWith('https://')) fullUrl = 'https://' + url;
 
   if (editingBm) {
-    // Remove from old category
     data[editingBm.catIdx].links.splice(editingBm.linkIdx, 1);
-    // Add to new category
     data[catIdx].links.push({ name, url: fullUrl });
     showToast('Bookmark updated!', 'success');
   } else {
@@ -1014,11 +1142,9 @@ function confirmDelete() {
   refreshAll();
 }
 
-// Close confirm on backdrop click
 document.getElementById('confirmOverlay').addEventListener('click', function(e) {
   if (e.target === this) closeConfirm();
 });
-// Close modals on backdrop click
 ['bookmarkModal','catModal'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) {
     if (e.target === this) closeModal(id);
